@@ -1,3 +1,21 @@
-<p>
-  task-item works!
-</p>
+<ion-item-sliding #sliding>
+
+  <ion-item (click)="update.emit(task)">
+    {{task.tittle}}
+    <ion-toogle slot="end" color="primary" [checked]="task.done" (click)="$event.stopPropagation(); done.emit(task)">
+    </ion-toogle>
+  </ion-item>
+
+  <ion-item-options side="start">
+
+    <ion-item-option color="danger" (click)="delete.emit(task); sliding.close()">
+      <ion-icon slot="icon-only" name="trash"></ion-icon>
+    </ion-item-option>
+
+    <ion-item-option (click)="update.emit(task); sliding.close()">
+      <ion-icon slot="icon-only" name="create"></ion-icon>
+    </ion-item-option>
+
+  </ion-item-options>
+
+</ion-item-sliding>
