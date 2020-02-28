@@ -13,21 +13,15 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
     private authService: AuthService,
     private router: Router) { }
 
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
     return this.checkAuthState(state.url);
   }
 
-  canActivateChild(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  canActivateChild(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
     return this.canActivate(next, state)
   }
 
-  canLoad(
-    route: Route,
-    segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean {
+  canLoad(route: Route, segments: UrlSegment[]): Observable<any> {
     const url = segments.map(s => `/${s}`).join('');
     return this.checkAuthState(url).pipe(take(1));
   }
