@@ -1,22 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Task } from '../../models/task.model';
+import { TasksService } from '../../services/tasks.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tasks-list',
   templateUrl: './tasks-list.page.html',
   styleUrls: ['./tasks-list.page.scss'],
 })
-export class TasksListPage implements OnInit {
+export class TasksListPage {
 
-  tasks: Observable<Array<Task>>;
-  constructor() { }
+  tasks: Observable<Task[]>;
 
-  ngOnInit() {
-    this.tasks = of([
-      { id: '123s12w', title: 'Aprender Ionic', done: false },
-      { id: '123w123', title: 'Aprender FireStore', done: false }
-    ])
+  constructor(
+    private tasksService: TasksService,
+    private navController: NavController
+  ) { }
+
+  ionViewDidEnter(): void {
+    this.tasks = this.tasksService.getAll();
+  }
+
+  onUpdate(task: Task): void {
+    this.navController.navigateRoot(`/tasks/edit/${task.id}`);
   }
 
 }
