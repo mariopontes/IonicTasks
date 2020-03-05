@@ -19,10 +19,9 @@ export class TasksService extends Firestore<Task> {
       .subscribe((user) => {
         if (user) {
           this.setCollection(`/users/${user.uid}/tasks`);
-          return;
+        } else {
+          this.setCollection(null);
         }
-
-        this.setCollection(null);
       })
   }
 }
