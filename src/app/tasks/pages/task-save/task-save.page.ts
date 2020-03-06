@@ -34,7 +34,6 @@ export class TaskSavePage implements OnInit {
       this.pageTitle = 'Create task';
     } else {
       this.taskId = taskId;
-      console.log('TASKID : ', taskId)
       this.pageTitle = 'Edit Task';
       this.tasksService.get(taskId)
         .pipe(take(1))
@@ -60,9 +59,11 @@ export class TaskSavePage implements OnInit {
       message: 'Saving...'
     });
     try {
-      const task = await this.tasksService.create(this.taskForm.value);
-      console.log('Task Created', task);
-      this.navController.navigateRoot('/tasks');
+      const task = !this.taskId ? await this.tasksService.create(this.taskForm.value) : await this.tasksService.update({
+        id: this.taskId,
+        ...this.taskForm.value
+      });
+      this.navController.navigateForward('/tasks');
     } catch (error) {
       await this.overlayService.toast({
         message: error.message
